@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useTodoState } from "../TodoContext";
 import TodoItem from "./TodoItem";
 
 const TodoListBlock = styled.div`
@@ -9,10 +10,18 @@ const TodoListBlock = styled.div`
 `;
 
 function TodoList() {
+  const todos = useTodoState();
+
   return (
     <TodoListBlock>
-      <TodoItem text="프로젝트 생성" done={true}></TodoItem>
-      <TodoItem text="프로젝트 생성" done={false}></TodoItem>
+      {todos.map((todo) => (
+        <TodoItem
+          key={todo.id}
+          id={todo.id}
+          text={todo.text}
+          done={todo.done}
+        ></TodoItem>
+      ))}
     </TodoListBlock>
   );
 }
