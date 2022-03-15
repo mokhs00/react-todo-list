@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { MdAdd } from "react-icons/md";
 import styled, { css } from "styled-components";
-import { useTodoDispatch, useTodoNextId } from "../TodoContext";
 
 const CircleButton = styled.div`
   background: #38d9a9;
@@ -76,12 +75,9 @@ const Input = styled.input`
   box-sizing: border-box;
 `;
 
-function TodoCreate() {
+function TodoCreate({ onCreate }) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
-
-  const dispatch = useTodoDispatch();
-  const nextId = useTodoNextId();
 
   const onToggle = () => setOpen(!open);
 
@@ -93,17 +89,10 @@ function TodoCreate() {
       return false;
     }
 
-    dispatch({
-      type: "CREATE",
-      todo: {
-        id: nextId.current,
-        text: value,
-        done: false,
-      },
-    });
+    onCreate(value);
+
     setValue("");
     setOpen(false);
-    nextId.current += 1;
   };
 
   return (
@@ -120,7 +109,7 @@ function TodoCreate() {
           </InsertForm>
         </InsertFormPositioner>
       )}
-      <CircleButton onClick={onToggle} open={open}>
+      <CircleButton onClick={() => onToggle()} open={open}>
         <MdAdd />
       </CircleButton>
     </>

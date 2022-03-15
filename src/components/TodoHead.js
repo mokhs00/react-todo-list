@@ -1,5 +1,5 @@
+import { useSelector } from "react-redux";
 import styled from "styled-components";
-import { useTodoState } from "../TodoContext";
 
 const TodoHeadBlock = styled.div`
   padding-top: 48px;
@@ -26,7 +26,7 @@ const TodoHeadBlock = styled.div`
 `;
 
 function TodoHead() {
-  const todos = useTodoState();
+  const todos = useSelector(state => state.todos);
   const undoneTasks = todos.filter((todo) => !todo.done);
 
   const today = new Date();
